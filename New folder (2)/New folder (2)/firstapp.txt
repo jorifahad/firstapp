@@ -1,0 +1,289 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: Colors.blue),
+        useMaterial3: true,
+      ),
+      home: const LoginPage(),
+    );
+  }
+}
+
+class LoginPage extends StatefulWidget {
+  const LoginPage({Key? key}) : super(key: key);
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  void _login() {
+    if (_formKey.currentState!.validate()) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const ForgivenessCalculator()),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.blue[50],
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 25.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(' !!مرحبا بكم ',
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                const SizedBox(height: 20),
+                TextFormField(
+                  controller: _emailController,
+                  decoration: InputDecoration(
+                    hintText: 'ايميل',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    filled: true,
+                    fillColor: Colors.white,
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'الايميل';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 20),
+                TextFormField(
+                  controller: _passwordController,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    hintText: 'الرمز',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    filled: true,
+                    fillColor: Colors.white,
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'رمز الدخول';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: _login,
+                  child: const Text('تسجيل الدخول'),
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: Size(double.infinity, 50),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    backgroundColor: Colors.blue[600],
+                  ),
+                ),
+                const SizedBox(height: 20),
+                GestureDetector(
+                  onTap: () {
+                    // Navigate to the registration screen
+                  },
+                  child: const Text('تسجيل جديد',
+                      style: TextStyle(color: Colors.blue)),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ForgivenessCalculator extends StatefulWidget {
+  const ForgivenessCalculator({super.key});
+
+  @override
+  State<ForgivenessCalculator> createState() => _ForgivenessCalculatorState();
+}
+
+class _ForgivenessCalculatorState extends State<ForgivenessCalculator> {
+  int count = 0;
+
+  void _incrementCounter() {
+    setState(() {
+      count++;
+    });
+  }
+
+  void _resetCounter() {
+    setState(() {
+      count = 0;
+    });
+  }
+
+  void _navigateToPrayers() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const PrayersScreen()),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.blue[700],
+        centerTitle: true,
+        title: const Text(
+          "اسْتَغْفِرُوا رَبَّكُمْ إِنَّهُ كَانَ غَفَّارًا",
+          style: TextStyle(
+              fontSize: 25, color: Colors.white, fontWeight: FontWeight.w700),
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.arrow_forward),
+            onPressed: _navigateToPrayers,
+          ),
+        ],
+      ),
+      backgroundColor: Colors.blue[100],
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              width: MediaQuery.of(context).size.width / 1.50,
+              height: MediaQuery.of(context).size.width / 1.50,
+              decoration: BoxDecoration(
+                color: Colors.blue[900],
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    offset: const Offset(1, 9),
+                    color: Colors.black.withOpacity(.5),
+                    spreadRadius: 8,
+                    blurRadius: 20,
+                  ),
+                ],
+              ),
+              child: Center(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 30),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.white,
+                  ),
+                  child: Text(
+                    count.toString(),
+                    style: TextStyle(
+                        fontSize: 48,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blue[900]),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 30),
+            ElevatedButton(
+              onPressed: _incrementCounter,
+              child: const Icon(Icons.add, size: 24),
+              style: ElevatedButton.styleFrom(
+                shape: const CircleBorder(),
+                padding: const EdgeInsets.all(16),
+                backgroundColor: Colors.blue[600],
+              ),
+             ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: _resetCounter,
+              child: const Icon(Icons.refresh, size: 24),
+              style: ElevatedButton.styleFrom(
+                shape: const CircleBorder(),
+                padding: const EdgeInsets.all(16),
+                backgroundColor: Colors.blue[400],
+              ),
+           ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class PrayersScreen extends StatelessWidget {
+  const PrayersScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.blue[700],
+        centerTitle: true,
+        title: const Text(
+          "اذكار الصباح والمساء",
+          style: TextStyle(
+              fontSize: 25, color: Colors.white, fontWeight: FontWeight.w700),
+        ),
+      ),
+      backgroundColor: Colors.blue[50],
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              "اذكار الصباح",
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 20),
+            const Text(
+             "سبحان ربي الاعلى\n"
+              "لا اله الا انت سبحانك ربي اني كنت من الظالمين\n"
+              "اللهم صلي وسلم على نبيك محمد وعلى اله وصحبه اجمعين",
+              style: TextStyle(fontSize: 18),
+            ),
+            Divider(thickness: 2, color: Colors.blue[200]), // Removed const
+            const SizedBox(height: 20),
+            const Text(
+              "اذكار المساء",
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 20),
+            const Text(
+              " سبحان ربي الاعلى \n"
+              " لا اله الا انت سبحانك ربي اني كنت من الظالمين  \n"
+              " اللهم صلي وسلم على نبيك محمد وعلى اله وصحبه اجمعين ",
+              style: TextStyle(fontSize: 18),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
